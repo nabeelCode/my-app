@@ -1,17 +1,81 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
+class App extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = { fahrenheit: '', celsius: '' }
+    }
+
+    //celsius to fahrenheit.
+    cToF = (e) => {
+        const c = parseFloat(e.target.value)
+        //avoiding non-numbers
+        if(Number.isNaN(c)) return ''
+        const f = (c * 9 / 5) + 32
+        //rounds float value
+        const rounded = Math.round( f * 1000 ) / 1000
+        this.setState(()=>({ 
+            fahrenheit: rounded,
+            celsius: ''
+        }))
+    }
+    //fahrenheit to celsius.
+    fToC = (e) => {
+        const f = parseFloat(e.target.value)
+        //avoiding non-numbers
+        if(Number.isNaN(f)) return ''
+        else{
+            const c = (f - 32) * 5 / 9
+            //rounds float value
+            const rounded = Math.round( c * 1000 ) / 10000
+            this.setState(()=>({ 
+                celsius: rounded,
+                fahrenheit: ''
+            }))
+        }
+    }
+
+    render(){
+        return(
+            <div style={{textAlign:'center'}}>
+                <h3>Celsius Fahrenheit Convertor</h3>
+                <table  style={{
+                    marginLeft: "auto",
+                    marginRight: 'auto'
+                }}>
+                    <tr>
+                        <td>
+                            <tr>
+                                <input 
+                                    onChange={this.cToF} 
+                                    value={this.state.celsius != ''  ? this.state.celsius:null}
+                                />
+                            </tr>
+                            <tr>
+                                celsius
+                            </tr>
+                        </td>
+                        <td>
+                            <tr>
+                                <input 
+                                    onChange={this.fToC}    
+                                    value={this.state.fahrenheit != '' ? this.state.fahrenheit:null}
+                                />
+                            </tr>
+                            <tr>
+                                fahrenheit
+                            </tr>
+                        </td>
+                    </tr>
+                </table>
+                
+               
+            </div>
+        )
+    }
+} 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+        <App/>,
+        document.getElementById('root')
+    )
